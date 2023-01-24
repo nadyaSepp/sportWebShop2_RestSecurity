@@ -14,6 +14,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
+    //admin,user
     @GetMapping
     public List<Product> getAll(){
         return productService.findAll();
@@ -22,21 +23,23 @@ public class ProductController {
     //поиск товаров по заданным параметрам
     // (название, бренд, цена, категория товара, размер, цвет)
 
-    @GetMapping("{id}")
-    public Product get(@PathVariable int id) {
-        return productService.findById(id);
-    }
-
 //    @GetMapping("/category/{id}")
 //    public List<Product> searchCategory(@PathVariable int id){
 //        return productService.searchCategory(id);
 //    }
 
+    @GetMapping("{id}")
+    public Product get(@PathVariable int id) {
+        return productService.findById(id);
+    }
+
+
+    //admin
+    //добавить товар в магазин
     @PostMapping("/create")
     public Product create(@RequestBody Product product) {
         return productService.create(product);
     }
-
 
 
     @DeleteMapping("{id}")

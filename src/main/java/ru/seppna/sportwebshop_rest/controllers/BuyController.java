@@ -1,9 +1,12 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Product;
+import ru.seppna.sportwebshop_rest.models.Receipt;
 import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.services.BuyService;
 
@@ -39,10 +42,27 @@ public class BuyController {
 //        return buyService.findDistinctByUseridAndRegistration(user,value);
 //    }
 
-    //admin
-    //добавить товар в магазин
+    //все позиции(товары) в чеке с номером id
+    @GetMapping("/{id}/products")
+    public List<Receipt> allProductsInBy(@PathVariable int id){
+        return buyService.findById(id).getReceipts();
+    }
+
     @PostMapping("/create")
     public Buy create(@RequestBody Buy buy) {
+        return buyService.create(buy);
+    }
+
+    //admin
+    //
+    @PostMapping("/create21")
+    public Buy create(@RequestBody List<Receipt> receipts) {
+        //добавить проверку на валидность!!!
+        //....
+        //здесь потом получить user,связанного с сессией
+        User user = new User();
+        Buy buy = new Buy(21, new Date(), user, receipts);
+
         return buyService.create(buy);
     }
 
