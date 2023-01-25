@@ -1,7 +1,6 @@
 package ru.seppna.sportwebshop_rest.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,4 +32,6 @@ public class Buy {
     //не ставим @JsonIgnore !!!!!
     private List<Receipt> receipts;
 
+    public Buy(int id, Date registration, int userId, List<Receipt> receipts) {
+    }
 }

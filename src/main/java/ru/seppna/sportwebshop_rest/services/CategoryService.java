@@ -3,7 +3,7 @@ package ru.seppna.sportwebshop_rest.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.seppna.sportwebshop_rest.models.Category;
-import ru.seppna.sportwebshop_rest.repositories.CategoryRepository;
+import ru.seppna.sportwebshop_rest.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -55,14 +55,15 @@ public class BuyController {
 
     //admin
     //
-    @PostMapping("/create21")
-    public Buy create(@RequestBody List<Receipt> receipts) {
+    @PostMapping("/user/create")
+    public Buy create(@PathVariable User user, @RequestBody List<Receipt> receipts) {
         //добавить проверку на валидность!!!
         //....
         //здесь потом получить user,связанного с сессией
-        User user = new User();
-        Buy buy = new Buy(21, new Date(), user, receipts);
-
+        //User user = new User();
+        int userId=user.getId();
+        //Buy buy = new Buy(21, new Date(), user, receipts);
+        Buy buy = new Buy(21,new Date(), userId, receipts);
         return buyService.create(buy);
     }
 

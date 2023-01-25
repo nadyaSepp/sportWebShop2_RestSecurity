@@ -40,6 +40,13 @@ public class User {
     private int isBlock;
     @Column(name="isadmin")
     private int isAdmin;
+    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

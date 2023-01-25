@@ -97,7 +97,9 @@ CREATE TABLE IF NOT EXISTS public."users"
     phone text,
     email text,
     isblock integer,
-    isadmin integer
+    isadmin integer,
+    role    text,
+    status  text
 );
 
 COMMENT ON TABLE public."users"

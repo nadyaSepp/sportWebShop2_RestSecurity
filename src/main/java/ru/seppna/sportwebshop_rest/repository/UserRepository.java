@@ -1,9 +1,12 @@
-package ru.seppna.sportwebshop_rest.repositories;
+package ru.seppna.sportwebshop_rest.repository;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.seppna.sportwebshop_rest.models.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
-
+    Optional<User> findByEmail(String email);
 }

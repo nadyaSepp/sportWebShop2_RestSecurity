@@ -2,11 +2,9 @@ package ru.seppna.sportwebshop_rest.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Product;
-import ru.seppna.sportwebshop_rest.repositories.ProductRepository;
+import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
