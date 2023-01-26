@@ -2,6 +2,7 @@ package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
@@ -21,6 +22,7 @@ public class BuyController {
 
     //admin
     //show все покупки всех users
+    @PreAuthorize("hasAuthority('product:write')")
     @GetMapping
     public List<Buy> getAll(){
         return buyService.findAll();
@@ -31,6 +33,7 @@ public class BuyController {
 
     //admin,user
     //show покупку id
+    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
     public Buy get(@PathVariable int id) {
         return buyService.findById(id);
@@ -43,18 +46,20 @@ public class BuyController {
 //    }
 
     //все позиции(товары) в чеке с номером id
+    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("/{id}/products")
     public List<Receipt> allProductsInBy(@PathVariable int id){
         return buyService.findById(id).getReceipts();
     }
 
+    @PreAuthorize("hasAuthority('product:write')")
     @PostMapping("/create")
     public Buy create(@RequestBody Buy buy) {
         return buyService.create(buy);
     }
 
     //admin
-    //
+    @PreAuthorize("hasAuthority('product:write')")
     @PostMapping("/user/create")
     public Buy create(@PathVariable User user, @RequestBody List<Receipt> receipts) {
         //добавить проверку на валидность!!!
@@ -69,6 +74,7 @@ public class BuyController {
 
     //admin
     //удалить покупку id
+    @PreAuthorize("hasAuthority('product:write')")
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {
         buyService.delete(id);
