@@ -1,6 +1,6 @@
 package ru.seppna.sportwebshop_rest.models;
 
-//Товары в корзинах клиентов
+//Количество позиций в покупке(чеке)
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

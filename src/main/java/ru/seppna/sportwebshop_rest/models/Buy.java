@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-//Сущность-покупки всех Users
+//Сущность-покупка(чек) клиента
 
 @Data
 @NoArgsConstructor
@@ -33,5 +33,8 @@ public class Buy {
     private List<Receipt> receipts;
 
     public Buy(int id, Date registration, int userId, List<Receipt> receipts) {
+    }
+
+    public Buy(Date registration, User user) {
     }
 }

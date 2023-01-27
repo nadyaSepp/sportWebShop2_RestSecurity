@@ -12,4 +12,5 @@ public interface BuyRepository extends JpaRepository<Buy,Integer> {
 
     //поиск покупки по user(id) и дате покупки
 //    List<Buy> findDistinctByUseridAndRegistration(User user, Date value);
+
 }
