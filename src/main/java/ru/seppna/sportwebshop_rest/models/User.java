@@ -48,7 +48,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    @OneToMany(mappedBy = "user")
+    //@OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //28.01.23
     @JsonIgnore
     private List<Buy> buys;
 }

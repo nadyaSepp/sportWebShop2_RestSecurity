@@ -13,28 +13,21 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    //admin
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    //admin
     public User findById(int id) {
         return userRepository.findById(id).orElseThrow();
    }
 
-    //admin, user
     public User create(User user) {
         return userRepository.save(user);
     }
 
-    //admin, user
-    //putch информацию личного кабинета
-
     //admin
-    //putch is_block,is_admin
-
-    //admin
-    //dalete
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
 
 }

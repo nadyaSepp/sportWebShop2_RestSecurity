@@ -11,6 +11,8 @@ import ru.seppna.sportwebshop_rest.services.UserService;
 
 import java.util.List;
 
+
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -113,5 +115,13 @@ public class UserController {
         user.setIsAdmin(is_admin);
         userService.create(user);
         return user;
+    }
+
+    //admin
+    //удалить clienta
+    @PreAuthorize("hasAuthority('product:write')")
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable int id) {
+        userService.delete(id);
     }
 }

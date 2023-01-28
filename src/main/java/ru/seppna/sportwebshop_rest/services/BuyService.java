@@ -23,13 +23,9 @@ public class BuyService {
         return result.orElseThrow();
     }
 
-//    public List<Product> allProducts(){
-//        return buyRepository.allProducts();
-//    }
-
-//    public  List<Buy> findDistinctByUseridAndRegistration(User user, Date value){
-//        return buyRepository.findDistinctByUseridAndRegistration(user,value);
-//    }
+    //public List<Product> allProducts(){
+    //   return buyRepository.allProducts();
+    //}
 
     public Buy create(Buy buy) {
         return buyRepository.save(buy);

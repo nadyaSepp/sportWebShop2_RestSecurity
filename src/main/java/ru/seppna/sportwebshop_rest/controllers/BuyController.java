@@ -14,6 +14,7 @@ import ru.seppna.sportwebshop_rest.services.BuyService;
 import java.util.Date;
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/buys")
@@ -27,44 +28,27 @@ public class BuyController {
     public List<Buy> getAll(){
         return buyService.findAll();
     }
-//+    public List<Product> getAll(){
-//        return buyService.allProducts();
-//    }
+
+    //+ public List<Product> getAll(){
+    //     return buyService.allProducts();
+    //  }
 
     //admin,client
-    //show покупку id
+    //show покупку id (доработать - поиск кокупки по дате)
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
     public Buy get(@PathVariable int id) {
         return buyService.findById(id);
     }
 
-    //-  поиск покупки по user(id) и дате покупки
-//    @GetMapping("/date/{id}/{}")
-//    public List<Buy> getUserDate(@PathVariable User user, Date value) {
-//        return buyService.findDistinctByUseridAndRegistration(user,value);
-//    }
 
     //admin,client
-    //показать все позиции(товары) в чеке(покупке) с номером id
+    //показать все товары в покупке(чеке) с номером id
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("/{id}/products")
     public List<Receipt> allProductsInBy(@PathVariable int id){
         return buyService.findById(id).getReceipts();
     }
-
-    // - admin,client
-    //создать покупку User(id)
-//    @PreAuthorize("hasAuthority('product:write')")
-//    @PostMapping("/create/{id}")
-//    public Buy create(@PathVariable User user, @RequestBody List<Receipt> receipts) {
-//        Buy buy = new Buy(new Date(), user);
-//        buyService.create(buy);
-//        //buy.getId()
-//        //buy.setUser();
-//        //+receipts;
-//        return buy;
-//    }
 
     //+ - admin,client
     //создать покупку

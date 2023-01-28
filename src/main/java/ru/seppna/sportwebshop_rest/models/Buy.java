@@ -23,6 +23,9 @@ public class Buy {
     @Column(name="registration")
     private Date registration;
 
+    @Transient
+    private double pay; //общая сумма покупки
+
     @ManyToOne
     @JoinColumn(name="userid", referencedColumnName = "id")
     private User user;

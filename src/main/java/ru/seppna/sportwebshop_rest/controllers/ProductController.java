@@ -15,29 +15,21 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    //admin,user
+    //admin,client
+    //просмотр всех товаров
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping
     public List<Product> getAll(){
         return productService.findAll();
     }
 
-    //поиск товаров по заданным параметрам
-    // (название, бренд, цена, категория товара, размер, цвет)
-    //@PreAuthorize("hasAuthority('product:read')")
-
-//    @PreAuthorize("hasAuthority('product:read')")
-//    @GetMapping("/category/{id}")
-//    public List<Product> searchCategory(@PathVariable int id){
-//        return productService.searchCategory(id);
-//    }
-
+    //admin,client
+    //просмотр товара (id)
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
     public Product get(@PathVariable int id) {
         return productService.findById(id);
     }
-
 
     //admin
     //добавить товар в магазин
@@ -47,6 +39,8 @@ public class ProductController {
         return productService.create(product);
     }
 
+    //admin
+    //удалить товар из магазина
     @PreAuthorize("hasAuthority('product:write')")
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {

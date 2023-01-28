@@ -16,33 +16,35 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
+    //show все категории
+    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping
     public List<Category> getAll(){
         return categoryService.findAll();
     }
 
+    //найти категорию по id
+    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
     public Category get(@PathVariable int id) {
         return categoryService.findById(id);
     }
 
-//    @GetMapping("/prefix")
-//    public List<Category> getByPrefix(@RequestParam String value){
-//        return categoryService.findByPrefix(value);
-//    }
-
+    //показать товары указанной категории
+    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("/{id}/products")
     public List<Product> allProducts(@PathVariable int id){
         return categoryService.findById(id).getProducts();
     }
 
-
+    //создать категорию
     @PostMapping
     @PreAuthorize("hasAuthority('product:write')")
     public Category create(@RequestBody Category category) {
         return categoryService.create(category);
     }
 
+    //удалить категорию
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('product:write')")
     public void delete(@PathVariable int id) {
