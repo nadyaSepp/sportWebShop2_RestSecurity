@@ -38,6 +38,8 @@ public class Buy {
     public Buy(int id, Date registration, int userId, List<Receipt> receipts) {
     }
 
-    public Buy(Date registration, User user) {
+    public Buy(User user, Date date) {
+        this.user = user;
+        this.registration = date;
     }
 }
