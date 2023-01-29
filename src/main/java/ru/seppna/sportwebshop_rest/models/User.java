@@ -36,10 +36,7 @@ public class User {
     private String phone;
     @Column(name="email")
     private String email;
-    @Column(name="isblock")
-    private int isBlock;
-    @Column(name="isadmin")
-    private int isAdmin;
+
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role;

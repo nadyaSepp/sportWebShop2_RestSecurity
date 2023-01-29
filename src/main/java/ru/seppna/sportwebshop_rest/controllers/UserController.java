@@ -3,11 +3,12 @@ package ru.seppna.sportwebshop_rest.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.seppna.sportwebshop_rest.models.Buy;
-import ru.seppna.sportwebshop_rest.models.Role;
-import ru.seppna.sportwebshop_rest.models.Status;
-import ru.seppna.sportwebshop_rest.models.User;
+//import ru.seppna.sportwebshop_rest.models.Buy;
+//import ru.seppna.sportwebshop_rest.models.Role;
+//import ru.seppna.sportwebshop_rest.models.Status;
+//import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.services.UserService;
+import ru.seppna.sportwebshop_rest.models.*;
 
 import java.util.List;
 
@@ -69,8 +70,24 @@ public class UserController {
         return user;
     }
 
+    //29/01/23
+    //создать покупку
+    @PreAuthorize("hasAuthority('product:read')")
+    @PostMapping("/{user_id}/new_buy")
+    public Buy buyProducts(@PathVariable(name = "user_id") int id,
+                           @RequestBody List<Receipt> items) {
+        Buy buy = userService.commitBuy(id, items);
+        items.forEach(receipt -> {
+            System.out.println(receipt.getProduct().getId()
+                    + " : " +
+                    receipt.getCount());
+        });
+        return buy;
+    }
+
+
     //admin
-    //putch status
+    //изменение status
     @PreAuthorize("hasAuthority('user:write')")
     @PatchMapping("/status/{id}/")
     public User setStatusUser(@PathVariable("id") int id,
@@ -82,7 +99,7 @@ public class UserController {
     }
 
     //admin
-    //update role
+    //изменение role
     @PreAuthorize("hasAuthority('user:write')")
     @PatchMapping("/role/{id}/")
     public User setRoleUser(@PathVariable("id") int id,
@@ -93,29 +110,29 @@ public class UserController {
         return user;
     }
 
-    //admin
-    //update is_block
-    @PreAuthorize("hasAuthority('user:write')")
-    @PatchMapping("/block/{id}/")
-    public User setBlockUser(@PathVariable("id") int id,
-                              @RequestParam(name="is_blok",required = true) int is_block) {
-        User user=userService.findById(id);
-        user.setIsBlock(is_block);
-        userService.create(user);
-        return user;
-    }
-
-    //admin
-    //update is_admin
-    @PreAuthorize("hasAuthority('user:write')")
-    @PatchMapping("/admin/{id}/")
-    public User setAdminUser(@PathVariable("id") int id,
-                             @RequestParam(name="is_admin",required = true) int is_admin) {
-        User user=userService.findById(id);
-        user.setIsAdmin(is_admin);
-        userService.create(user);
-        return user;
-    }
+//    //admin
+//    //update is_block
+//    @PreAuthorize("hasAuthority('user:write')")
+//    @PatchMapping("/block/{id}/")
+//    public User setBlockUser(@PathVariable("id") int id,
+//                              @RequestParam(name="is_blok",required = true) int is_block) {
+//        User user=userService.findById(id);
+//        user.setIsBlock(is_block);
+//        userService.create(user);
+//        return user;
+//    }
+//
+//    //admin
+//    //update is_admin
+//    @PreAuthorize("hasAuthority('user:write')")
+//    @PatchMapping("/admin/{id}/")
+//    public User setAdminUser(@PathVariable("id") int id,
+//                             @RequestParam(name="is_admin",required = true) int is_admin) {
+//        User user=userService.findById(id);
+//        user.setIsAdmin(is_admin);
+//        userService.create(user);
+//        return user;
+//    }
 
     //admin
     //удалить clienta
@@ -124,4 +141,10 @@ public class UserController {
     public void delete(@PathVariable int id) {
         userService.delete(id);
     }
+
+
+
+
+
+
 }

@@ -34,7 +34,7 @@ public class BuyController {
     //  }
 
     //admin,client
-    //show покупку id (доработать - поиск кокупки по дате)
+    //show покупку id (доработать - поиск покупки по дате)
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
     public Buy get(@PathVariable int id) {
@@ -50,20 +50,35 @@ public class BuyController {
         return buyService.findById(id).getReceipts();
     }
 
-    //+ - admin,client
-    //создать покупку
+    @PreAuthorize("hasAuthority('product:read')")
+    @PostMapping("/create/{id}")
+    public Buy create(@PathVariable int id,@RequestBody List<Receipt> receipts) {
+        //добавить проверку на валидность!!!
+        //....
+        //здесь потом получить user,связанного с сессией
+        //User user = new User();
+        //Buy buy = new Buy(21, new Date(), user, receipts);
+        //int userId=user.getId();
+
+
+
+        Buy buy = new Buy(id,new Date(), receipts);
+        System.out.println(buy.getId());
+        return buyService.create(buy);
+    }
 //    @PreAuthorize("hasAuthority('product:read')")
-//    @PostMapping("/create/{id}/")
-//    public Buy create(@PathVariable User user,@RequestBody List<Receipt> receipts) {
+//    @PostMapping("/create/{user_id}/")
+//    //public Buy create(@PathVariable User user,@RequestBody List<Receipt> receipts) {
+//    public Buy create(@PathVariable int user_id,@RequestBody List<Receipt> receipts) {
 //        //добавить проверку на валидность!!!
 //        //....
 //        //здесь потом получить user,связанного с сессией
 //        //User user = new User();
 //        //Buy buy = new Buy(21, new Date(), user, receipts);
-//        int userId=user.getId();
+//        //int userId=user.getId();
 //
-//        Buy buy = new Buy(9,new Date(), userId, receipts);
+//        //Buy buy = new Buy(9,new Date(), userId, receipts);
+//        Buy buy = new Buy(user_id, new Date());
 //        return buyService.create(buy);
 //    }
-
 }
