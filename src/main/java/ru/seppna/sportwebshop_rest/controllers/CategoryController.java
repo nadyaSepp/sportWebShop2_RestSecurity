@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    //show все категории
+    //show все категории товаров
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping
     public List<Category> getAll(){

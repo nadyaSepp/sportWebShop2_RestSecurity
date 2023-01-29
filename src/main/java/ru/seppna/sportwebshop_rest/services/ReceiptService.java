@@ -21,7 +21,6 @@ public class ReceiptService {
         Optional<Receipt> result = receiptRepository.findById(id);
         return result.orElseThrow();
     }
-
     public Receipt create(Receipt receipt) {
         return receiptRepository.save(receipt);
     }

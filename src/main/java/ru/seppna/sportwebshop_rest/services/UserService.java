@@ -28,7 +28,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
    }
 
-    public User create(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
@@ -36,7 +36,6 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //29.01.23
     @Transactional
     public Buy commitBuy(int id, List<Receipt> items) {
         User user = findById(id);

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Product;
-import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.services.ProductService;
 
 import java.util.List;

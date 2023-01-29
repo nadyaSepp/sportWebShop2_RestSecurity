@@ -21,7 +21,6 @@ public class CategoryService {
         Optional<Category> result = categoryRepository.findById(id);
         return result.orElseThrow();
     }
-
     public Category create(Category category) {
         return categoryRepository.save(category);
     }

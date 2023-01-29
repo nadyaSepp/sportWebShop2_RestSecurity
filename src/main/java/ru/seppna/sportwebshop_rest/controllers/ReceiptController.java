@@ -1,6 +1,5 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
@@ -24,7 +23,6 @@ public class ReceiptController {
     public Receipt create(@RequestBody Receipt receipt) {
         return receiptService.create(receipt);
     }
-
 
 //    @GetMapping("/buys")
 //    public List<Buy> getAllBuy(){

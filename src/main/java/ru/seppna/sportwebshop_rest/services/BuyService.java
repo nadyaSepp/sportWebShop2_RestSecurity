@@ -17,15 +17,14 @@ public class BuyService {
     public List<Buy> findAll(){
         return buyRepository.findAll();
     }
+    //public List<Product> allProducts(){
+    //   return buyRepository.allProducts();
+    //}
 
     public Buy findById(int id) {
         Optional<Buy> result = buyRepository.findById(id);
         return result.orElseThrow();
     }
-
-    //public List<Product> allProducts(){
-    //   return buyRepository.allProducts();
-    //}
 
     public Buy create(Buy buy) {
         return buyRepository.save(buy);

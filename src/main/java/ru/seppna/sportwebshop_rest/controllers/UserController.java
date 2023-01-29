@@ -3,16 +3,10 @@ package ru.seppna.sportwebshop_rest.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-//import ru.seppna.sportwebshop_rest.models.Buy;
-//import ru.seppna.sportwebshop_rest.models.Role;
-//import ru.seppna.sportwebshop_rest.models.Status;
-//import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.services.UserService;
 import ru.seppna.sportwebshop_rest.models.*;
 
 import java.util.List;
-
-
 
 @RestController
 @AllArgsConstructor
@@ -49,28 +43,36 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
     public User create(@RequestBody User user) {
-        return userService.create(user);
+        return userService.save(user);
     }
 
     //admin, client
     //изменение данных личного кабинета
-    @PreAuthorize("hasAnyAuthority('user:read')")
-    @PatchMapping("/{id}/{surname}/{city}/{country}/{phone}")
-    public User patchClient(@PathVariable("id") int id,
-                            @PathVariable("surname") String surname,
-                            @PathVariable("city") String city,
-                            @PathVariable("country") String country,
-                            @PathVariable("phone") String phone) {
-        User user=userService.findById(id);
-        user.setSurname(surname);
-        user.setCity(city);
-        user.setCountry(country);
-        user.setPhone(phone);
-        userService.create(user);
-        return user;
+
+    @PatchMapping("/update")
+    @PreAuthorize("hasAuthority('user:read')")
+    public User update(@RequestBody User user) {
+        return userService.save(user);
     }
 
     //29/01/23
+//    @PreAuthorize("hasAnyAuthority('user:read')")
+//    @PatchMapping("/{id}/{surname}/{city}/{country}/{phone}")
+//    public User patchClient(@PathVariable("id") int id,
+//                            @PathVariable("surname") String surname,
+//                            @PathVariable("city") String city,
+//                            @PathVariable("country") String country,
+//                            @PathVariable("phone") String phone) {
+//        User user=userService.findById(id);
+//        user.setSurname(surname);
+//        user.setCity(city);
+//        user.setCountry(country);
+//        user.setPhone(phone);
+//        userService.create(user);
+//        return user;
+//    }
+
+    //admin, client
     //создать покупку
     @PreAuthorize("hasAuthority('product:read')")
     @PostMapping("/{user_id}/new_buy")
@@ -85,7 +87,6 @@ public class UserController {
         return buy;
     }
 
-
     //admin
     //изменение status
     @PreAuthorize("hasAuthority('user:write')")
@@ -94,7 +95,7 @@ public class UserController {
                               @RequestParam(name="status",required = true) Status status) {
         User user=userService.findById(id);
         user.setStatus(status);
-        userService.create(user);
+        userService.save(user);
         return user;
     }
 
@@ -106,33 +107,9 @@ public class UserController {
                               @RequestParam(name="role",required = true) Role role) {
         User user=userService.findById(id);
         user.setRole(role);
-        userService.create(user);
+        userService.save(user);
         return user;
     }
-
-//    //admin
-//    //update is_block
-//    @PreAuthorize("hasAuthority('user:write')")
-//    @PatchMapping("/block/{id}/")
-//    public User setBlockUser(@PathVariable("id") int id,
-//                              @RequestParam(name="is_blok",required = true) int is_block) {
-//        User user=userService.findById(id);
-//        user.setIsBlock(is_block);
-//        userService.create(user);
-//        return user;
-//    }
-//
-//    //admin
-//    //update is_admin
-//    @PreAuthorize("hasAuthority('user:write')")
-//    @PatchMapping("/admin/{id}/")
-//    public User setAdminUser(@PathVariable("id") int id,
-//                             @RequestParam(name="is_admin",required = true) int is_admin) {
-//        User user=userService.findById(id);
-//        user.setIsAdmin(is_admin);
-//        userService.create(user);
-//        return user;
-//    }
 
     //admin
     //удалить clienta
@@ -141,10 +118,5 @@ public class UserController {
     public void delete(@PathVariable int id) {
         userService.delete(id);
     }
-
-
-
-
-
 
 }
