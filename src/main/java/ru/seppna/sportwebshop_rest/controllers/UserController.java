@@ -3,10 +3,7 @@ package ru.seppna.sportwebshop_rest.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.seppna.sportwebshop_rest.models.Buy;
-import ru.seppna.sportwebshop_rest.models.Role;
-import ru.seppna.sportwebshop_rest.models.Status;
-import ru.seppna.sportwebshop_rest.models.User;
+import ru.seppna.sportwebshop_rest.models.*;
 import ru.seppna.sportwebshop_rest.services.UserService;
 
 import java.util.List;
@@ -18,6 +15,18 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+
+    @PostMapping("/{user_id}/buy")
+    public Buy buyProducts(@PathVariable(name = "user_id") int id,
+                           @RequestBody List<Receipt> items) {
+        Buy buy = userService.commitBuy(id, items);
+        items.forEach(receipt -> {
+            System.out.println(receipt.getProduct().getId()
+                    + " : " +
+                    receipt.getCount());
+        });
+        return buy;
+    }
 
     //admin
     //show Users
