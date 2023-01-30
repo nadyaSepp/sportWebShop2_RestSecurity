@@ -1,5 +1,6 @@
 package ru.seppna.sportwebshop_rest.security;
 
+import org.springframework.security.core.Authentication;
 import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByEmail(username).orElseThrow();
         return SecurityUser.fromUser(user);
+    }
+
+    //Authentication-информация о текущем Usere
+    public boolean hasUserId(Authentication authentication, int userId) {
+        User user = repository.findByEmail(authentication.getName()).orElseThrow();
+        return user.getId() == userId;
     }
 }

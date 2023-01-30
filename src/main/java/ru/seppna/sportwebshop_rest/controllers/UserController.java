@@ -1,6 +1,7 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.services.UserService;
@@ -10,35 +11,37 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
     //admin
     //show Users
-    @PreAuthorize("hasAuthority('user:write')")
     @GetMapping
+    @PreAuthorize("hasAuthority('user:write')")
     public List<User> getAll(){
         return userService.findAll();
     }
 
     //admin
     //show User(id)
+    @GetMapping("{userId}")
     @PreAuthorize("hasAuthority('user:write')")
-    @GetMapping("{id}")
-    public User get(@PathVariable int id) {
-        return userService.findById(id);
+    public User get(@PathVariable int userId) {
+        return userService.findById(userId);
     }
 
     //admin, client
     //show все покупки id-Usera
-    @PreAuthorize("hasAuthority('user:read')")
-    @GetMapping("/{id}/buys")
-    public List<Buy> allBuys(@PathVariable int id){
-        return userService.findById(id).getBuys();
+    @GetMapping("/{userId}/buy")
+    //@PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
+    public List<Buy> allBuys(@PathVariable int userId){
+        return userService.findById(userId).getBuys();
     }
 
-    //admin
+
+    //admin, client
     //регистрация в магазине
     @PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
@@ -47,36 +50,28 @@ public class UserController {
     }
 
     //admin, client
-    //изменение данных личного кабинета
-
-    @PatchMapping("/update")
-    @PreAuthorize("hasAuthority('user:read')")
-    public User update(@RequestBody User user) {
-        return userService.save(user);
+    //изменение данных личного кабинета (ФИО,город, страна, контактный телефон)
+    @PatchMapping("/{userId}/update")
+    //@PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
+    public User update( @PathVariable(name = "userId") int id,
+                        @RequestBody User newUser) {
+            User user=userService.findById(id);
+            user.setFirstname(newUser.getFirstname());
+            user.setSurname(newUser.getSurname());
+            user.setCity(newUser.getCity());
+            user.setCountry(newUser.getCountry());
+            user.setPhone(newUser.getPhone());
+            userService.save(user);
+        return user;
     }
-
-    //29/01/23
-//    @PreAuthorize("hasAnyAuthority('user:read')")
-//    @PatchMapping("/{id}/{surname}/{city}/{country}/{phone}")
-//    public User patchClient(@PathVariable("id") int id,
-//                            @PathVariable("surname") String surname,
-//                            @PathVariable("city") String city,
-//                            @PathVariable("country") String country,
-//                            @PathVariable("phone") String phone) {
-//        User user=userService.findById(id);
-//        user.setSurname(surname);
-//        user.setCity(city);
-//        user.setCountry(country);
-//        user.setPhone(phone);
-//        userService.create(user);
-//        return user;
-//    }
 
     //admin, client
     //создать покупку
+    @PostMapping("/{userId}/new_buy")
     @PreAuthorize("hasAuthority('product:read')")
-    @PostMapping("/{user_id}/new_buy")
-    public Buy buyProducts(@PathVariable(name = "user_id") int id,
+    //@PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
+    public Buy buyProducts(@PathVariable(name = "userId") int id,
                            @RequestBody List<Receipt> items) {
         Buy buy = userService.commitBuy(id, items);
         items.forEach(receipt -> {
@@ -90,8 +85,8 @@ public class UserController {
     //admin
     //изменение status
     @PreAuthorize("hasAuthority('user:write')")
-    @PatchMapping("/status/{id}/")
-    public User setStatusUser(@PathVariable("id") int id,
+    @PatchMapping("/{userId}/status")
+    public User setStatusUser(@PathVariable("userId") int id,
                               @RequestParam(name="status",required = true) Status status) {
         User user=userService.findById(id);
         user.setStatus(status);
@@ -102,8 +97,8 @@ public class UserController {
     //admin
     //изменение role
     @PreAuthorize("hasAuthority('user:write')")
-    @PatchMapping("/role/{id}/")
-    public User setRoleUser(@PathVariable("id") int id,
+    @PatchMapping("/{userId}/role")
+    public User setRoleUser(@PathVariable("userId") int id,
                               @RequestParam(name="role",required = true) Role role) {
         User user=userService.findById(id);
         user.setRole(role);
@@ -114,9 +109,9 @@ public class UserController {
     //admin
     //удалить clienta
     @PreAuthorize("hasAuthority('product:write')")
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable int id) {
-        userService.delete(id);
+    @DeleteMapping("{userId}")
+    public void delete(@PathVariable int userId) {
+        userService.delete(userId);
     }
 
 }
