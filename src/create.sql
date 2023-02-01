@@ -114,10 +114,10 @@ COMMENT ON TABLE public."users"
 
 insert into "users" (firstname,surname,login,passwd,registration,city,country,phone,email,role,status)
 values
-('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-10-12','Ульяновск','Россия','890614234566','i1@mail.ru','ADMIN','ACTIVE'),
-('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-10-12','Ульяновск','Россия','890614234566','n2@mail.ru','CLIENT','ACTIVE'),
-('Иван','Петров', 'iv3','$2a$12$r74vnYszzR1ystFvaCMlHeKwd5NIbCXPY30ejON4CDiQ/UCqM9N3e', '2022-10-12','Ульяновск','Россия','890614234566','iv3@mail.ru','CLIENT','ACTIVE'),
-('Иван','Дуров', 'iv4','$2a$12$OKoSVC0aNO/DUVyj5QAbKu2toeGytNVi1Zh/XHKID/5t5uQ2QFJE6', '2022-01-12','Ульяновск','Россия','890614234566','iv4@mail.ru','CLIENT','ACTIVE');
+('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-01-12','Ульяновск','Россия','890614234566','i1@mail.ru','SUPERADMIN','ACTIVE'),
+('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-02-12','Ульяновск','Россия','890614234566','n2@mail.ru','CLIENT','ACTIVE'),
+('Иван','Петров', 'iv3','$2a$12$r74vnYszzR1ystFvaCMlHeKwd5NIbCXPY30ejON4CDiQ/UCqM9N3e', '2022-03-12','Ульяновск','Россия','890614234566','iv3@mail.ru','CLIENT','ACTIVE'),
+('Иван','Дуров', 'iv4','$2a$12$OKoSVC0aNO/DUVyj5QAbKu2toeGytNVi1Zh/XHKID/5t5uQ2QFJE6', '2022-04-12','Ульяновск','Россия','890614234566','iv4@mail.ru','CLIENT','ACTIVE');
 
 -- ('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-10-12','Ульяновск','Россия','890614234566','i1@mail.ru'),
 -- ('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-10-12','Ульяновск','Россия','890614234566','n2@mail.ru'),

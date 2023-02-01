@@ -37,7 +37,6 @@ public class UserController {
     //@PreAuthorize("hasAuthority('user:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public List<Buy> allBuys(@PathVariable int id){
-
         return userService.findById(id).getBuys();
     }
 
@@ -85,8 +84,8 @@ public class UserController {
 
     //admin
     //изменение status
-    @PreAuthorize("hasAuthority('user:write')")
     @PatchMapping("/{userId}/status")
+    @PreAuthorize("hasAuthority('user:write')")
     public User setStatusUser(@PathVariable("userId") int id,
                               @RequestParam(name="status",required = true) Status status) {
         User user=userService.findById(id);
@@ -95,10 +94,10 @@ public class UserController {
         return user;
     }
 
-    //admin
+    //superadmin
     //изменение role
-    @PreAuthorize("hasAuthority('user:write')")
     @PatchMapping("/{userId}/role")
+    @PreAuthorize("hasAuthority('role:write')")
     public User setRoleUser(@PathVariable("userId") int id,
                               @RequestParam(name="role",required = true) Role role) {
         User user=userService.findById(id);
@@ -109,8 +108,8 @@ public class UserController {
 
     //admin
     //удалить clienta
-    @PreAuthorize("hasAuthority('product:write')")
     @DeleteMapping("{userId}")
+    @PreAuthorize("hasAuthority('user:write')")
     public void delete(@PathVariable int userId) {
         userService.delete(userId);
     }

@@ -1,15 +1,11 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
-import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.models.Receipt;
-import ru.seppna.sportwebshop_rest.models.User;
 import ru.seppna.sportwebshop_rest.services.BuyService;
 
 import java.util.Date;
@@ -35,7 +31,7 @@ public class BuyController {
     //  }
 
     //admin,client
-    //show покупку id (доработать - поиск покупки по дате)
+    //show покупку id
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('product:write')")
     public Buy get(@PathVariable int id) {
@@ -43,7 +39,7 @@ public class BuyController {
     }
 
     //---
-    //admin
+    //- admin
     @GetMapping("/before_date/")
     @PreAuthorize("hasAuthority('product:write')")
     public List<Receipt> getByDateBefore(@RequestParam ("value") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)Date value){

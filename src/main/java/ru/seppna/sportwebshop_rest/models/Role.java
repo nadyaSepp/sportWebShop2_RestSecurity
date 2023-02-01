@@ -8,7 +8,17 @@ import java.util.stream.Collectors;
 
 public enum Role {
     CLIENT(Set.of(Permission.USER_READ,Permission.PRODUCT_READ)),
-    ADMIN(Set.of(Permission.USER_READ, Permission.USER_WRITE,Permission.PRODUCT_READ,Permission.PRODUCT_WRITE));
+
+    ADMIN(Set.of(Permission.USER_READ,
+                 Permission.USER_WRITE,
+                 Permission.PRODUCT_READ,
+                 Permission.PRODUCT_WRITE)),
+
+    SUPERADMIN(Set.of(Permission.USER_READ,
+                      Permission.USER_WRITE,
+                      Permission.PRODUCT_READ,
+                      Permission.PRODUCT_WRITE,
+                      Permission.ROLE_WRITE));
 
     private final Set<Permission> permissions;
 

@@ -37,6 +37,14 @@ public class CategoryController {
         return categoryService.findById(id).getProducts();
     }
 
+//-----
+//    @PreAuthorize("hasAuthority('product:read')")
+//    @GetMapping("/{id}/products")
+//    public List<Product> allProducts(@PathVariable int id){
+//        return categoryService.findById(id).getProducts();
+//    }
+////------
+
     //создать категорию
     @PostMapping
     @PreAuthorize("hasAuthority('product:write')")

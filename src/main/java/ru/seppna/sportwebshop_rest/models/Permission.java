@@ -7,7 +7,9 @@ public enum Permission {
     USER_WRITE("user:write"),
 
     PRODUCT_READ("product:read"),
-    PRODUCT_WRITE("product:write");
+    PRODUCT_WRITE("product:write"),
+
+    ROLE_WRITE("role:write");
 
     private final String permission;
 
