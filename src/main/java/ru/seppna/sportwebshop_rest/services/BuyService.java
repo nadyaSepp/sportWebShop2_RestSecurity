@@ -6,6 +6,7 @@ import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Receipt;
 import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,10 @@ public class BuyService {
 
     public Buy create(Buy buy) {
         return buyRepository.save(buy);
+    }
+
+    public List<Receipt> findBeforeDate(Date value) {
+        return buyRepository.findByRegistration(value);
     }
 
 }

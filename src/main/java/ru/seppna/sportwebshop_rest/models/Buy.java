@@ -23,6 +23,7 @@ public class Buy {
     @Column(name="registration")
     private Date registration;
 
+    //помечаем вычисляемое поле, которого нет в таблице
     @Transient
     private double pay; //общая сумма покупки
 
@@ -41,7 +42,6 @@ public class Buy {
     public Buy(int user, Date registration,List<Receipt> receipts) {
     }
 
-    //29/01/23
     public Buy(User user, Date date) {
         this.user = user;
         this.registration = date;

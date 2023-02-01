@@ -41,9 +41,17 @@ public class UserService {
         User user = findById(id);
         Buy buy = new Buy(user, new Date());
         buy.setReceipts(items);
+
+//        double cost = items.stream()
+//            .filter(f -> f.getCount() > 0)
+//            .mapToDouble((f)-> Double.parseDouble(f.getProduct().getPrice())*f.getCount())
+//            .sum();
+//        buy.setPay(cost);
+
         items.forEach(item -> item.setBuy(buy));
         buyRepository.save(buy);
-        System.out.println("Success");
+        System.out.printf("Success: %f",buy.getPay());
+        System.out.println("Success: ");
         receiptRepository.saveAll(items);
         return buy;
     }

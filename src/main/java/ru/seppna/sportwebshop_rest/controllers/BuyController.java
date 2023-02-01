@@ -2,6 +2,7 @@ package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,8 @@ public class BuyController {
 
     //admin
     //show покупки всех users
-    @PreAuthorize("hasAuthority('product:write')")
     @GetMapping
+    @PreAuthorize("hasAuthority('product:write')")
     public List<Buy> getAll(){
         return buyService.findAll();
     }
@@ -35,19 +36,31 @@ public class BuyController {
 
     //admin,client
     //show покупку id (доработать - поиск покупки по дате)
-    @PreAuthorize("hasAuthority('product:read')")
     @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('product:write')")
     public Buy get(@PathVariable int id) {
         return buyService.findById(id);
     }
 
+    //---
+    //admin
+    @GetMapping("/before_date/")
+    @PreAuthorize("hasAuthority('product:write')")
+    public List<Receipt> getByDateBefore(@RequestParam ("value") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)Date value){
+        List<Receipt> receipts=buyService.findBeforeDate(value);
+        return receipts;
+    }
+    //------
 
-    //admin,client
-    //показать все товары в покупке(чеке) с номером id
-    @PreAuthorize("hasAuthority('product:read')")
+
+    //admin
+    //показать все товары в чеке(buy) с номером id
     @GetMapping("/{id}/products")
+    @PreAuthorize("hasAuthority('product:write')")
     public List<Receipt> allProductsInBy(@PathVariable int id){
         return buyService.findById(id).getReceipts();
     }
+
+
 
 }

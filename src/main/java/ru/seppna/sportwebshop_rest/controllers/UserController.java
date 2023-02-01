@@ -33,11 +33,12 @@ public class UserController {
 
     //admin, client
     //show все покупки id-Usera
-    @GetMapping("/{userId}/buy")
+    @GetMapping("/{id}/buys")
     //@PreAuthorize("hasAuthority('user:read')")
-    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
-    public List<Buy> allBuys(@PathVariable int userId){
-        return userService.findById(userId).getBuys();
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
+    public List<Buy> allBuys(@PathVariable int id){
+
+        return userService.findById(id).getBuys();
     }
 
 
@@ -51,10 +52,10 @@ public class UserController {
 
     //admin, client
     //изменение данных личного кабинета (ФИО,город, страна, контактный телефон)
-    @PatchMapping("/{userId}/update")
+    @PatchMapping("/{id}/update")
     //@PreAuthorize("hasAuthority('user:read')")
-    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
-    public User update( @PathVariable(name = "userId") int id,
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
+    public User update( @PathVariable(name = "id") int id,
                         @RequestBody User newUser) {
             User user=userService.findById(id);
             user.setFirstname(newUser.getFirstname());
@@ -68,10 +69,10 @@ public class UserController {
 
     //admin, client
     //создать покупку
-    @PostMapping("/{userId}/new_buy")
-    @PreAuthorize("hasAuthority('product:read')")
-    //@PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('user:write')")
-    public Buy buyProducts(@PathVariable(name = "userId") int id,
+    @PostMapping("/{id}/new_buy")
+    //@PreAuthorize("hasAuthority('product:read')")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
+    public Buy buyProducts(@PathVariable(name = "id") int id,
                            @RequestBody List<Receipt> items) {
         Buy buy = userService.commitBuy(id, items);
         items.forEach(receipt -> {
