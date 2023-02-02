@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
+import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.models.Receipt;
 import ru.seppna.sportwebshop_rest.services.BuyService;
 
@@ -26,9 +27,14 @@ public class BuyController {
         return buyService.findAll();
     }
 
-    //+ public List<Product> getAll(){
-    //     return buyService.allProducts();
-    //  }
+
+    //----
+//    @GetMapping("/all")
+//    @PreAuthorize("hasAuthority('product:write')")
+//    public List<Product> getProducts(){
+//         return buyService.allProducts();
+//    }
+    //----
 
     //admin,client
     //show покупку id
@@ -36,6 +42,16 @@ public class BuyController {
     @PreAuthorize("hasAuthority('product:write')")
     public Buy get(@PathVariable int id) {
         return buyService.findById(id);
+    }
+
+
+    //admin + sup
+    //показать все товары в чеке(buy) с номером id
+    @GetMapping("/{id}/products")
+    @PreAuthorize("hasAuthority('product:write')")
+    public List<Receipt> allProductsInBy(@PathVariable int id){
+
+        return buyService.findById(id).getReceipts();
     }
 
     //---
@@ -47,16 +63,6 @@ public class BuyController {
         return receipts;
     }
     //------
-
-
-    //admin
-    //показать все товары в чеке(buy) с номером id
-    @GetMapping("/{id}/products")
-    @PreAuthorize("hasAuthority('product:write')")
-    public List<Receipt> allProductsInBy(@PathVariable int id){
-        return buyService.findById(id).getReceipts();
-    }
-
 
 
 }

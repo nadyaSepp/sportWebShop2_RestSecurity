@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    //admin
+    //admin,superadmin
     //show Users
     @GetMapping
     @PreAuthorize("hasAuthority('user:write')")
@@ -31,17 +31,18 @@ public class UserController {
         return userService.findById(userId);
     }
 
-    //admin, client
+    //admin,superadmin, client
     //show все покупки id-Usera
     @GetMapping("/{id}/buys")
     //@PreAuthorize("hasAuthority('user:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public List<Buy> allBuys(@PathVariable int id){
+
+
         return userService.findById(id).getBuys();
     }
 
-
-    //admin, client
+    //admin,superadmin,client
     //регистрация в магазине
     @PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
@@ -49,7 +50,7 @@ public class UserController {
         return userService.save(user);
     }
 
-    //admin, client
+    //admin,superadmin, client
     //изменение данных личного кабинета (ФИО,город, страна, контактный телефон)
     @PatchMapping("/{id}/update")
     //@PreAuthorize("hasAuthority('user:read')")
@@ -66,7 +67,7 @@ public class UserController {
         return user;
     }
 
-    //admin, client
+    //admin, superadmin,client
     //создать покупку
     @PostMapping("/{id}/new_buy")
     //@PreAuthorize("hasAuthority('product:read')")
@@ -82,10 +83,10 @@ public class UserController {
         return buy;
     }
 
-    //admin
+    //superadmin
     //изменение status
     @PatchMapping("/{userId}/status")
-    @PreAuthorize("hasAuthority('user:write')")
+    @PreAuthorize("hasAuthority('role:write')")
     public User setStatusUser(@PathVariable("userId") int id,
                               @RequestParam(name="status",required = true) Status status) {
         User user=userService.findById(id);

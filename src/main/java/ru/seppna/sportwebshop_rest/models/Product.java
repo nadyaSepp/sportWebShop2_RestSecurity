@@ -23,7 +23,7 @@ public class Product {
     @Column(name="brand")
     private String brand;
     @Column(name="price")
-    private String price;
+    private double price;
     @Column(name="size")
     private double size;
     @Column(name="characteristic")
