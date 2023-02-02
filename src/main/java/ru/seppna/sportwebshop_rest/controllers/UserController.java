@@ -83,10 +83,10 @@ public class UserController {
         return buy;
     }
 
-    //superadmin
+    //admin,superadmin
     //изменение status
     @PatchMapping("/{userId}/status")
-    @PreAuthorize("hasAuthority('role:write')")
+    @PreAuthorize("hasAuthority('user:write')")
     public User setStatusUser(@PathVariable("userId") int id,
                               @RequestParam(name="status",required = true) Status status) {
         User user=userService.findById(id);
