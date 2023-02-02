@@ -9,6 +9,7 @@ import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ public class BuyService {
 
     //метод расчета всей суммы покупки
     public double sum(List<Receipt> items) {
-        //расчет суммы всей покупки
         double sum = 0.0;
         for (Receipt item : items) {
             Optional<Product> product = productRepository.findById(item.getProduct().getId());
@@ -41,7 +41,6 @@ public class BuyService {
                 result.get().setPay(pay);
             }
         }
-        //return buyRepository.findAll();
         return buys;
     }
 
@@ -50,10 +49,9 @@ public class BuyService {
         //---02.02 расчет всей суммы покупки
         if (! result.isEmpty()) {
             double pay = sum(result.get().getReceipts());
-            System.out.println(pay);
+            //System.out.println(pay);
             result.get().setPay(pay);
         }
-        //-----------------------
     return result.orElseThrow();
     }
 
@@ -61,13 +59,33 @@ public class BuyService {
         return buyRepository.save(buy);
     }
 
-    public List<Receipt> findBeforeDate(Date value) {
-        System.out.println(value.getTime());
-        //System.out.println(value.format(DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("ru"))));
-        //if ()
-        return buyRepository.findByRegistration(value);
+    //была ли проверяемая дата раньше
+    public List<Buy> findBeforeDate(Date value) {
+        //System.out.println(value.getTime());
+        List<Buy> buysBefore=new ArrayList<Buy>();
+        List<Buy> buys=buyRepository.findAll();
+        for (Buy item : buys) {
+            //System.out.println(item.getRegistration().getTime());
+            if (item.getRegistration().before(value)) {
+                buysBefore.add(item);
+            }
+        }
+        for (Buy item : buysBefore) {
+            double pay = sum(item.getReceipts());
+            item.setPay(pay);
+        }
+        return buysBefore;
     }
 
+    //была ли проверяемая дата позже
+    public List<Buy> findAfterDate(Date value) {
+        List<Buy> buysAfter=new ArrayList<Buy>();
+        List<Buy> buys=buyRepository.findAll();
+        for (Buy item : buys) {
+            if (item.getRegistration().after(value)) {buysAfter.add(item);}
+        }
+        return buysAfter;
+    }
 //    public List<Product> allProducts(){
 //       return buyRepository.allProducts();
 //    }

@@ -19,12 +19,46 @@ import java.util.List;
 public class BuyController {
     private final BuyService buyService;
 
-    //admin
+    //admin + super
     //show покупки всех users
     @GetMapping
     @PreAuthorize("hasAuthority('product:write')")
     public List<Buy> getAll(){
         return buyService.findAll();
+    }
+
+
+    //admin + super,client
+    //show покупку id
+    @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('product:write')")
+    public Buy get(@PathVariable int id) {
+        return buyService.findById(id);
+    }
+
+
+    //admin + super
+    //показать все товары в чеке(buy) с номером id
+    @GetMapping("/{id}/products")
+    @PreAuthorize("hasAuthority('product:write')")
+    public List<Receipt> allProductsInBy(@PathVariable int id){
+        return buyService.findById(id).getReceipts();
+    }
+
+    //admin + super
+    @GetMapping("/before_date/")
+    @PreAuthorize("hasAuthority('product:write')")
+    public List<Buy> getByDateBefore(@RequestParam ("value") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)Date value){
+        List<Buy> buys=buyService.findBeforeDate(value);
+        return buys;
+    }
+
+    //admin + super
+    @GetMapping("/after_date/")
+    @PreAuthorize("hasAuthority('product:write')")
+    public List<Buy> getByDateAfter(@RequestParam ("value") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)Date value){
+        List<Buy> buys=buyService.findAfterDate(value);
+        return buys;
     }
 
 
@@ -35,34 +69,4 @@ public class BuyController {
 //         return buyService.allProducts();
 //    }
     //----
-
-    //admin,client
-    //show покупку id
-    @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('product:write')")
-    public Buy get(@PathVariable int id) {
-        return buyService.findById(id);
-    }
-
-
-    //admin + sup
-    //показать все товары в чеке(buy) с номером id
-    @GetMapping("/{id}/products")
-    @PreAuthorize("hasAuthority('product:write')")
-    public List<Receipt> allProductsInBy(@PathVariable int id){
-
-        return buyService.findById(id).getReceipts();
-    }
-
-    //---
-    //- admin
-    @GetMapping("/before_date/")
-    @PreAuthorize("hasAuthority('product:write')")
-    public List<Receipt> getByDateBefore(@RequestParam ("value") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)Date value){
-        List<Receipt> receipts=buyService.findBeforeDate(value);
-        return receipts;
-    }
-    //------
-
-
 }
