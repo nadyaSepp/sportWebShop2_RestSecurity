@@ -10,6 +10,7 @@
 * Требования к запуску:
 
 OC Windows 10.0 или выше
+
 Наличие СУБД PostgreSQL с настройкой параметров:
 
 url: 'jdbc:postgresql://localhost:5432/sportShop2'
