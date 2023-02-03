@@ -1,13 +1,13 @@
-# Дипломный проект: sportWebShop2_RestSecurity
-* Исполнитель: Сеппар Н.А. группа "Java112"
+# Дипломный проект: "sportWebShop2_RestSecurity"
+* Выполнил: Сеппар Н.А. группа "Java112"
 
-*Тема: "Web-магазин спортивной одежды"
+* Тема: "Web-магазин спортивной одежды"
 
 *Исполняемый файл проекта: sportWebShop2_RestSecurity.jar
 
 *Скрипт создания базы данных: create.sql
 
-*Требования к запуску:
+* Требования к запуску:
 
 OC Windows 10.0 или выше
 Наличие СУБД PostgreSQL с настройкой параметров:
@@ -18,7 +18,7 @@ username: postgres
 
 password: rootroot
 
-*Порядок запуска проекта:
+* Порядок запуска проекта:
 
 В СУБД PostgreSQL создать базу данных "sportShop2" для чего выполнить запуск скрипта create.sql командой:
 pg_dump -U postgres sportWebShop2_Rest < create.sql
