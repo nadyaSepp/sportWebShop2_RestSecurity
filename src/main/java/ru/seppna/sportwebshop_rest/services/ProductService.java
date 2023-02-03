@@ -22,6 +22,8 @@ public class ProductService {
         return result.orElseThrow();
     }
     public Product create(Product product) {
+        System.out.println(product.getTitle());
+
         return productRepository.save(product);
     }
 

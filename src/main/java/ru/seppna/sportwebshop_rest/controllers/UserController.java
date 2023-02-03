@@ -47,6 +47,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
     public User create(@RequestBody User user) {
+        user.setRole(Role.CLIENT);
+        user.setStatus(Status.ACTIVE);
         return userService.save(user);
     }
 
@@ -69,7 +71,7 @@ public class UserController {
 
     //admin, superadmin,client
     //создать покупку
-    @PostMapping("/{id}/new_buy")
+    @PostMapping("/{id}/create_buy")
     //@PreAuthorize("hasAuthority('product:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public Buy buyProducts(@PathVariable(name = "id") int id,
@@ -102,6 +104,7 @@ public class UserController {
     public User setRoleUser(@PathVariable("userId") int id,
                               @RequestParam(name="role",required = true) Role role) {
         User user=userService.findById(id);
+        System.out.println(role);
         user.setRole(role);
         userService.save(user);
         return user;

@@ -32,7 +32,7 @@ public class ProductController {
 
     //admin
     //добавить товар в магазин
-    @PostMapping("/create")
+    @PatchMapping("/create")
     @PreAuthorize("hasAuthority('product:write')")
     public Product create(@RequestBody Product product) {
         return productService.create(product);

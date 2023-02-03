@@ -2,10 +2,7 @@ package ru.seppna.sportwebshop_rest.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.seppna.sportwebshop_rest.models.Buy;
-import ru.seppna.sportwebshop_rest.models.Product;
-import ru.seppna.sportwebshop_rest.models.Receipt;
-import ru.seppna.sportwebshop_rest.models.User;
+import ru.seppna.sportwebshop_rest.models.*;
 import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 import ru.seppna.sportwebshop_rest.repository.ReceiptRepository;
@@ -33,9 +30,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
    }
 
-    public User save(User user) {
-        return userRepository.save(user);
-    }
+    public User save(User user) { return userRepository.save(user); }
 
     public void delete(int id) {
         userRepository.deleteById(id);
@@ -45,25 +40,28 @@ public class UserService {
     public Buy commitBuy(int id, List<Receipt> items) {
         User user = findById(id);
         Buy buy = new Buy(user, new Date());
-        buy.setReceipts(items);
+        /////buy.setReceipts(items);
 
         //см.какие товары купил и сколько
-        //items.forEach(receipt -> System.out.println(receipt.getProduct().getId() + ":" + receipt.getCount()));
+        items.forEach(receipt -> System.out.println("111 " + receipt.getProduct().getId() + ":" + receipt.getCount() + ":" + receipt.getBuy()));
         //расчет суммы всей покупки
         double sum = 0.;
         for (Receipt item : items) {
             Optional<Product> product=productRepository.findById(item.getProduct().getId());
-            System.out.println(product.get().getPrice() + ":" + item.getCount());
+            System.out.println("222 " + product.get().getPrice() + ":" + item.getCount());
             sum+=product.get().getPrice() * item.getCount();
         }
         buy.setPay(sum);
         System.out.printf("Success sum: %f\n",buy.getPay());
 
         items.forEach(item -> item.setBuy(buy));
-        buyRepository.save(buy);
 
+        buy.setReceipts(items);///////////убрала сверху
+        buyRepository.save(buy);
         System.out.println("Success buy: ");
+
         receiptRepository.saveAll(items);
+        System.out.println("Success receipts: ");
         return buy;
     }
 }

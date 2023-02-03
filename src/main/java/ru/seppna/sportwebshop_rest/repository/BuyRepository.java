@@ -12,13 +12,8 @@ import java.util.List;
 
 @Repository
 public interface BuyRepository extends JpaRepository<Buy,Integer> {
-    //    @Query()
-    List<Buy> findByRegistration(Date value);
 
 //    @Query(nativeQuery = true, value = "select * FROM products")
 //    List<Product> allProducts();
-
-    //поиск покупки по user(id) и дате покупки
-    //List<Buy> findDistinctByUseridAndRegistration(User user, Date value);
 
 }

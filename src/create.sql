@@ -105,24 +105,12 @@ ALTER TABLE users ALTER COLUMN status SET DEFAULT 'ACTIVE';
 COMMENT ON TABLE public."users"
     IS 'Клиенты и админы';
 
--- insert into "users" (firstname,surname,login,passwd,registration,city,country,phone,email)
--- values
---     ('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-10-12','Ульяновск','Россия','890614234566','i1@mail.ru','ADMIN','ACTIVE'),
---     ('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-10-12','Ульяновск','Россия','890614234566','n2@mail.ru','ADMIN','ACTIVE'),
---     ('Иван','Петров', 'iv3','$2a$12$r74vnYszzR1ystFvaCMlHeKwd5NIbCXPY30ejON4CDiQ/UCqM9N3e', '2022-10-12','Ульяновск','Россия','890614234566','iv3@mail.ru','CLIENT','ACTIVE'),
---     ('Иван','Дуров', 'iv4','$2a$12$OKoSVC0aNO/DUVyj5QAbKu2toeGytNVi1Zh/XHKID/5t5uQ2QFJE6', '2022-01-12','Ульяновск','Россия','890614234566','iv4@mail.ru','CLIENT','ACTIVE');
-
 insert into "users" (firstname,surname,login,passwd,registration,city,country,phone,email,role,status)
 values
 ('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-01-12','Ульяновск','Россия','890614234566','i1@mail.ru','SUPERADMIN','ACTIVE'),
-('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-02-12','Ульяновск','Россия','890614234566','n2@mail.ru','CLIENT','ACTIVE'),
+('Нина','Вторая', 'n2','$2a$12$HAQsaz7iZTMizUaefqgv4.MTFhxy2njLFDT2VyX2n2X1.PJ9Hg5uy', '2022-02-12','Ульяновск','Россия','890614234566','n2@mail.ru','CLIENT','ACTIVE'),
 ('Иван','Петров', 'iv3','$2a$12$r74vnYszzR1ystFvaCMlHeKwd5NIbCXPY30ejON4CDiQ/UCqM9N3e', '2022-03-12','Ульяновск','Россия','890614234566','iv3@mail.ru','CLIENT','ACTIVE'),
 ('Иван','Дуров', 'iv4','$2a$12$OKoSVC0aNO/DUVyj5QAbKu2toeGytNVi1Zh/XHKID/5t5uQ2QFJE6', '2022-04-12','Ульяновск','Россия','890614234566','iv4@mail.ru','CLIENT','ACTIVE');
-
--- ('Ирина','Первая', 'i1','$2a$12$FTzWmPMTd3UV4xAWPhDhQOxRrKkwHfFRP0.ITfOCfcQ9Qm3i2WCSa', '2022-10-12','Ульяновск','Россия','890614234566','i1@mail.ru'),
--- ('Нина','Вторая', 'n2','$2a$12$BrutPcKmeNSgWxPZ5SH8WeY6QIIVQDZAzzXruKPfW', '2022-10-12','Ульяновск','Россия','890614234566','n2@mail.ru'),
--- ('Иван','Петров', 'iv3','$2a$12$r74vnYszzR1ystFvaCMlHeKwd5NIbCXPY30ejON4CDiQ/UCqM9N3e', '2022-10-12','Ульяновск','Россия','890614234566','iv3@mail.ru'),
--- ('Иван','Дуров', 'iv4','$2a$12$OKoSVC0aNO/DUVyj5QAbKu2toeGytNVi1Zh/XHKID/5t5uQ2QFJE6', '2022-01-12','Ульяновск','Россия','890614234566','iv4@mail.ru');
 
 -------------- Table: public.buy
 CREATE TABLE IF NOT EXISTS public."buys"
@@ -136,12 +124,12 @@ CREATE TABLE IF NOT EXISTS public."buys"
 COMMENT ON TABLE public."buys"
     IS 'Покупки всех Users';
 
-insert into "buys" (id,userid,registration)
-values
-    (1, 1, '2023-01-21 18:11:05'),
-    (2, 1, '2023-01-21 18:11:05'),
-    (3, 3, '2023-01-21 18:11:05'),
-    (4, 4, '2023-01-21 18:11:05');
+-- insert into "buys" (id,userid,registration)
+-- values
+--     (1, 1, '2023-01-21 18:11:05'),
+--     (2, 1, '2023-01-21 18:11:05'),
+--     (3, 3, '2023-01-21 18:11:05'),
+--     (4, 4, '2023-01-21 18:11:05');
 
 
 
@@ -153,17 +141,17 @@ CREATE TABLE IF NOT EXISTS public."receipts"
     productid integer,
     count integer,
     foreign key (buyid) references "buys" (id),
-    foreign key (productid) references "products" (id)
+    foreign key (productid) references "products" (id) on delete set NULL
 );
 COMMENT ON TABLE public."receipts"
     IS 'Таблица-связь: Количество каждой позиции(покупки) и ее данные';
 
-insert into "receipts" (id,buyid,productid,count)
-values
-    (1, 1, 1, 1),
-    (2, 1, 2, 1),
-    (3, 2, 1, 1),
-    (4, 3, 1, 1);
+-- insert into "receipts" (id,buyid,productid,count)
+-- values
+--     (1, 1, 1, 1),
+--     (2, 1, 2, 1),
+--     (3, 2, 1, 1),
+--     (4, 3, 1, 1);
 
 
 

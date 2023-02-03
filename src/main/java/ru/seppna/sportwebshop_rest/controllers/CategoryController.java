@@ -46,7 +46,7 @@ public class CategoryController {
 ////------
 
     //создать категорию
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasAuthority('product:write')")
     public Category create(@RequestBody Category category) {
         return categoryService.create(category);
