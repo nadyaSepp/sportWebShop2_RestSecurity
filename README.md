@@ -23,4 +23,5 @@ password: rootroot
 В СУБД PostgreSQL создать базу данных "sportShop2" для чего выполнить запуск скрипта create.sql командой:
 
 pg_dump -U postgres sportWebShop2_Rest < create.sql
+
 Запустить исполняемый файл в терминале командой: java -jar sportWebShop2_RestSecurity.jar
