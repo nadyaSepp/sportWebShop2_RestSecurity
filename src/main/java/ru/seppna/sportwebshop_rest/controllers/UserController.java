@@ -2,18 +2,29 @@ package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.services.UserService;
 import ru.seppna.sportwebshop_rest.models.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+
+    //обработка иск.ситуации (тип1)
+    //с указанием в Header: своего сообщения-"No user present!")
+    //с указанием в ответе: класса ошибки NoSuchElementException.class
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handle(){
+        return  new ResponseEntity<>("No user present!", HttpStatus.NOT_FOUND);
+    }
 
     //admin,superadmin
     //show Users
@@ -34,11 +45,8 @@ public class UserController {
     //admin,superadmin, client
     //show все покупки id-Usera
     @GetMapping("/{id}/buys")
-    //@PreAuthorize("hasAuthority('user:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public List<Buy> allBuys(@PathVariable int id){
-
-
         return userService.findById(id).getBuys();
     }
 
@@ -55,7 +63,6 @@ public class UserController {
     //admin,superadmin, client
     //изменение данных личного кабинета (ФИО,город, страна, контактный телефон)
     @PatchMapping("/{id}/update")
-    //@PreAuthorize("hasAuthority('user:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public User update( @PathVariable(name = "id") int id,
                         @RequestBody User newUser) {
@@ -72,7 +79,6 @@ public class UserController {
     //admin, superadmin,client
     //создать покупку
     @PostMapping("/{id}/create_buy")
-    //@PreAuthorize("hasAuthority('product:read')")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public Buy buyProducts(@PathVariable(name = "id") int id,
                            @RequestBody List<Receipt> items) {

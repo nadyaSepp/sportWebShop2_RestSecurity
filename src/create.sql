@@ -130,8 +130,8 @@ COMMENT ON TABLE public."buys"
 --     (2, 1, '2023-01-21 18:11:05'),
 --     (3, 3, '2023-01-21 18:11:05'),
 --     (4, 4, '2023-01-21 18:11:05');
-
-
+--
+--
 
 -------------- Table: public.receipt_products
 CREATE TABLE IF NOT EXISTS public."receipts"

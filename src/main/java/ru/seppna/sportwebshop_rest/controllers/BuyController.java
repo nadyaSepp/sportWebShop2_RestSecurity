@@ -1,7 +1,10 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.seppna.sportwebshop_rest.models.Buy;
@@ -11,14 +14,25 @@ import ru.seppna.sportwebshop_rest.services.BuyService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/buys")
 public class BuyController {
     private final BuyService buyService;
 
+
+    //обработка иск.ситуации (тип1)
+    //с указанием в Header: своего сообщения-"No buy present!")
+    //с указанием в ответе: класса ошибки NoSuchElementException.class
+    @ExceptionHandler()
+    public ResponseEntity<String> handle(NoSuchElementException ex){
+        log.error(ex.getMessage());
+        return  new ResponseEntity<>("No buy present!", HttpStatus.NOT_FOUND);
+    }
     //admin + super
     //show покупки всех users
     @GetMapping

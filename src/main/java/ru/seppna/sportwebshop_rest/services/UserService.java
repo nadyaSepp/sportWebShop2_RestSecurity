@@ -33,6 +33,9 @@ public class UserService {
     public User save(User user) { return userRepository.save(user); }
 
     public void delete(int id) {
+        //сначало проверяем есть ли он?
+        userRepository.findById(id).orElseThrow();
+        //тогда удаляем
         userRepository.deleteById(id);
     }
 

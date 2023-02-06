@@ -1,7 +1,11 @@
 package ru.seppna.sportwebshop_rest.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.models.Receipt;
@@ -9,16 +13,15 @@ import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class BuyService {
     private final BuyRepository buyRepository;
     private final ProductRepository productRepository;
+
 
     //метод расчета всей суммы покупки
     public double sum(List<Receipt> items) {
@@ -52,7 +55,7 @@ public class BuyService {
             //System.out.println(pay);
             result.get().setPay(pay);
         }
-    return result.orElseThrow();
+        return result.get();
     }
 
     public Buy create(Buy buy) {

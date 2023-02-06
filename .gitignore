@@ -1,33 +1,64 @@
-HELP.md
+classes/
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
+*/src/*/java/META-INF
+*/src/META-INF/
+*/src/*/java/META-INF/
 .classpath
-.factorypath
-.project
-.settings
 .springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.project
+.DS_Store
+.settings/
+.idea/*
+out/
+bin/
+intellij/
+build/
+*.log
+*.log.*
 *.iml
 *.ipr
+*.iws
+.gradle/
+atlassian-ide-plugin.xml
+!etc/eclipse/.checkstyle
+.checkstyle
+s101plugin.state
+.attach_pid*
+.~lock.*#
+!.idea/checkstyle-idea.xml
+!.idea/externalDependencies.xml
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# AWS User-specific
+.idea/**/aws.xml
 
-### VS Code ###
-.vscode/
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+*.iws
+# IntelliJ
+out/
+.idea_modules/
+atlassian-ide-plugin.xml
+.idea/replstate.xml
+.idea/sonarlint/
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+.idea/httpRequests

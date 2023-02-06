@@ -2,6 +2,7 @@ package ru.seppna.sportwebshop_rest.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.seppna.sportwebshop_rest.error.NoSuchProductException;
 import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
@@ -19,15 +20,19 @@ public class ProductService {
 
     public Product findById(int id) {
         Optional<Product> result = productRepository.findById(id);
-        return result.orElseThrow();
+        return result.orElseThrow(
+                () -> new NoSuchProductException("No such product!")
+        );
     }
     public Product create(Product product) {
         System.out.println(product.getTitle());
-
         return productRepository.save(product);
     }
 
     public void delete(int id) {
+        //сначало проверяем есть ли он?
+        productRepository.findById(id).orElseThrow();
+        //тогда удаляем
         productRepository.deleteById(id);
     }
 
