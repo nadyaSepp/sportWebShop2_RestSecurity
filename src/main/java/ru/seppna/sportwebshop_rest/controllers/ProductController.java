@@ -57,6 +57,7 @@ public class ProductController {
     @PatchMapping("/create")
     @PreAuthorize("hasAuthority('product:write')")
     public Product create(@RequestBody Product product) {
+
         return productService.create(product);
     }
 

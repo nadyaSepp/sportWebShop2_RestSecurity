@@ -50,9 +50,9 @@ public class UserController {
         return userService.findById(id).getBuys();
     }
 
-    //admin,superadmin,client
+    //all
     //регистрация в магазине
-    @PreAuthorize("hasAuthority('user:read')")
+    //@PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
     public User create(@RequestBody User user) {
         user.setRole(Role.CLIENT);

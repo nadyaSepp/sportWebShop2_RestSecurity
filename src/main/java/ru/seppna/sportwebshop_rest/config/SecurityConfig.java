@@ -36,8 +36,16 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         //Любой запрос должен требовать авторизации
         http
-                .csrf().disable()   //Отключение защиты csrf токеном
-                .authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated()
+                //Отключение защиты csrf токеном
+                .csrf().disable()
+                //пометка, что для запросов будут след.правила
+                .authorizeRequests()
+                //--здесь по url "/"- дать доступ всем
+                .antMatchers("/").permitAll()
+                //добавили паттерн для "/user/create"
+                .antMatchers("/user/create").permitAll()
+                //любой другой запрос - только авторизованным
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();   //Базовая аутентификация
     }
