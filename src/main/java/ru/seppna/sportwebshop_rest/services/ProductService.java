@@ -26,9 +26,6 @@ public class ProductService {
     }
     public Product create(Product product) {
         System.out.println(product.getTitle());
-        //сначало проверяем есть ли он?
-        productRepository.findById(product.getId()).orElseThrow();
-
         return productRepository.save(product);
     }
 

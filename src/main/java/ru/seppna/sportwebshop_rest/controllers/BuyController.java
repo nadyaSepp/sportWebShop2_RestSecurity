@@ -75,12 +75,4 @@ public class BuyController {
         return buys;
     }
 
-
-    //----
-//    @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('product:write')")
-//    public List<Product> getProducts(){
-//         return buyService.allProducts();
-//    }
-    //----
 }

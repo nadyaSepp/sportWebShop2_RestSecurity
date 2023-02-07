@@ -26,15 +26,15 @@ public class ProductController {
     // с указанием в ответе- "404 NOT FOUND"
     @ExceptionHandler()
     @ResponseStatus(HttpStatus.NOT_FOUND) //чтоб статус ответа тоже остался ошибкой -"404 NOT FOUND"
-    public ErrorMessage handle(NoSuchProductException ex){
+    public ErrorMessage handleProd(NoSuchProductException ex){
         log.error(ex.getMessage());
         return  new ErrorMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handle(){
-        return  new ResponseEntity<>("No product present!", HttpStatus.NOT_FOUND);
-    }
+//    @ExceptionHandler(NoSuchElementException.class)
+//    public ResponseEntity<String> handle(){
+//        return  new ResponseEntity<>("No product present!", HttpStatus.NOT_FOUND);
+//    }
 
     //admin,client
     //просмотр всех товаров
@@ -57,12 +57,11 @@ public class ProductController {
     @PatchMapping("/create")
     @PreAuthorize("hasAuthority('product:write')")
     public Product create(@RequestBody Product product) {
-
         return productService.create(product);
     }
 
     //admin
-    //удалить товар из магазина
+    //удалить товар из магазина (переделать!!! поставить отсутствие в магазине!!!!)
     @PreAuthorize("hasAuthority('product:write')")
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {

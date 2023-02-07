@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.seppna.sportwebshop_rest.error.NoSuchProductException;
 import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.models.Receipt;
 import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -49,13 +49,15 @@ public class BuyService {
 
     public Buy findById(int id) {
         Optional<Buy> result = buyRepository.findById(id);
-        //---02.02 расчет всей суммы покупки
+
+        //расчет всей суммы покупки
         if (! result.isEmpty()) {
             double pay = sum(result.get().getReceipts());
             //System.out.println(pay);
             result.get().setPay(pay);
         }
-        return result.get();
+        //return result.get();
+        return result.orElseThrow();///07.02.23
     }
 
     public Buy create(Buy buy) {
@@ -89,8 +91,5 @@ public class BuyService {
         }
         return buysAfter;
     }
-//    public List<Product> allProducts(){
-//       return buyRepository.allProducts();
-//    }
 
 }

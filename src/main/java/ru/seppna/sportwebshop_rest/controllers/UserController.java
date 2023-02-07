@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.seppna.sportwebshop_rest.error.ErrorMessage;
+import ru.seppna.sportwebshop_rest.error.NoSuchProductException;
 import ru.seppna.sportwebshop_rest.services.UserService;
 import ru.seppna.sportwebshop_rest.models.*;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -21,9 +24,26 @@ public class UserController {
     //обработка иск.ситуации (тип1)
     //с указанием в Header: своего сообщения-"No user present!")
     //с указанием в ответе: класса ошибки NoSuchElementException.class
+    @ResponseStatus(HttpStatus.NOT_FOUND) //чтоб статус ответа тоже остался ошибкой -"404 NOT FOUND"
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handle(){
         return  new ResponseEntity<>("No user present!", HttpStatus.NOT_FOUND);
+    }
+
+    //или обработка иск.ситуаций (тип 3 - свой обработчик NoSuchProductException + его сообщ. и сообщения "No such product")
+    // с указанием в ответе- "400 BAD_REQUEST"
+    //@ExceptionHandler(NoSuchProductException.class)
+
+    //класс exception EntityExistsException.class
+    @ExceptionHandler(EntityExistsException.class)
+     public ResponseEntity<String> handleBadEmail(){
+        return  new ResponseEntity<>("Bad email!", HttpStatus.BAD_REQUEST);
+    }
+
+    //класс exception IllegalArgumentException.class
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleExistsEmail(){
+        return  new ResponseEntity<>("Already email exists!", HttpStatus.BAD_REQUEST);
     }
 
     //admin,superadmin
@@ -52,12 +72,9 @@ public class UserController {
 
     //all
     //регистрация в магазине
-    //@PreAuthorize("hasAuthority('user:read')")
     @PostMapping("/create")
     public User create(@RequestBody User user) {
-        user.setRole(Role.CLIENT);
-        user.setStatus(Status.ACTIVE);
-        return userService.save(user);
+        return userService.create(user);
     }
 
     //admin,superadmin, client
@@ -66,14 +83,7 @@ public class UserController {
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public User update( @PathVariable(name = "id") int id,
                         @RequestBody User newUser) {
-            User user=userService.findById(id);
-            user.setFirstname(newUser.getFirstname());
-            user.setSurname(newUser.getSurname());
-            user.setCity(newUser.getCity());
-            user.setCountry(newUser.getCountry());
-            user.setPhone(newUser.getPhone());
-            userService.save(user);
-        return user;
+        return userService.update(id,newUser);
     }
 
     //admin, superadmin,client
@@ -97,10 +107,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:write')")
     public User setStatusUser(@PathVariable("userId") int id,
                               @RequestParam(name="status",required = true) Status status) {
-        User user=userService.findById(id);
-        user.setStatus(status);
-        userService.save(user);
-        return user;
+        return userService.setStatusUser(id,status);
     }
 
     //superadmin
@@ -109,19 +116,16 @@ public class UserController {
     @PreAuthorize("hasAuthority('role:write')")
     public User setRoleUser(@PathVariable("userId") int id,
                               @RequestParam(name="role",required = true) Role role) {
-        User user=userService.findById(id);
-        System.out.println(role);
-        user.setRole(role);
-        userService.save(user);
-        return user;
+        return userService.setRoleUser(id,role);
     }
 
     //admin
     //удалить clienta
     @DeleteMapping("{userId}")
     @PreAuthorize("hasAuthority('user:write')")
-    public void delete(@PathVariable int userId) {
-        userService.delete(userId);
+    public int delete(@PathVariable int userId) {
+        int id=userService.delete(userId);
+        return  id;
     }
 
 }

@@ -24,14 +24,4 @@ public class ReceiptController {
         return receiptService.create(receipt);
     }
 
-//    @GetMapping("/buys")
-//    public List<Buy> getAllBuy(){
-//        return receiptService.findAll();
-//    }
-//
-//    @GetMapping("/products")
-//    public List<Product> getAllPr(){
-//        return receiptService.findAll();
-//    }
-
 }

@@ -32,6 +32,12 @@ public class CategoryController {
         return  new ErrorMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    //класс exception IllegalArgumentException.class
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleExists(){
+        return  new ResponseEntity<>("Already exists!", HttpStatus.BAD_REQUEST);
+    }
+
     //show все категории товаров
     @PreAuthorize("hasAuthority('product:read')")
     @GetMapping
