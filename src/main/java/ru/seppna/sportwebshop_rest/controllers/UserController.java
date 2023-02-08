@@ -1,6 +1,7 @@
 package ru.seppna.sportwebshop_rest.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,17 @@ import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+
+    @ExceptionHandler()
+    @ResponseStatus(HttpStatus.NOT_FOUND) //чтоб статус ответа тоже остался ошибкой -"404 NOT FOUND"
+    public ErrorMessage handleProd(NoSuchProductException ex){
+        log.error(ex.getMessage());
+        return  new ErrorMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
     //обработка иск.ситуации (тип1)
     //с указанием в Header: своего сообщения-"No user present!")

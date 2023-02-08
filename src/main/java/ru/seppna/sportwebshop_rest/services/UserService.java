@@ -3,6 +3,7 @@ package ru.seppna.sportwebshop_rest.services;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.seppna.sportwebshop_rest.error.NoSuchProductException;
 import ru.seppna.sportwebshop_rest.models.*;
 import ru.seppna.sportwebshop_rest.repository.BuyRepository;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
@@ -112,12 +113,19 @@ public class UserService {
     //собираем покупку клиента
     @Transactional
     public Buy commitBuy(int id, List<Receipt> items) {
+        //проверка usera
         User user = findById(id);
-        Buy buy = new Buy(user, new Date());
-        ///buy.setReceipts(items);
+        //см.какие товары хочет купить и сколько
+        items.forEach(receipt -> System.out.println("111 " + receipt.getProduct().getId() + ":" + receipt.getCount() + ":" + receipt.getBuy()));
 
-        //см.какие товары купил и сколько
-        //items.forEach(receipt -> System.out.println("111 " + receipt.getProduct().getId() + ":" + receipt.getCount() + ":" + receipt.getBuy()));
+       //проверяем, можно ли купить этот товар
+        items.forEach(receipt -> { Optional<Product> p = productRepository.findById(receipt.getProduct().getId());
+                                   if (p.get().getIspresence().equals("нет"))
+                                     {throw new NoSuchProductException("Bad receipts");}
+                                   else receipt.getProduct().setIspresence("есть");
+                                 });
+        //собираем чек(покупку)
+        Buy buy = new Buy(user, new Date());
 
          //расчет суммы всей покупки
         buy.setPay(buy.sum(items));
@@ -125,7 +133,7 @@ public class UserService {
 
         items.forEach(item -> item.setBuy(buy));
 
-        buy.setReceipts(items);//убрала сюда сверху
+        buy.setReceipts(items);
         buyRepository.save(buy);
         System.out.println("Success buy: ");
 

@@ -30,6 +30,8 @@ public class Product {
     private String characteristic;
     @Column(name="color")
     private String color;
+    @Column(name="ispresence")
+    private String ispresence;
     @ManyToOne
     @JoinColumn(name="categoryid",referencedColumnName = "id")
     private Category category;

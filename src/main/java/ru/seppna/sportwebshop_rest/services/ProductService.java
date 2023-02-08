@@ -3,11 +3,14 @@ package ru.seppna.sportwebshop_rest.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.seppna.sportwebshop_rest.error.NoSuchProductException;
+import ru.seppna.sportwebshop_rest.models.Buy;
 import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.repository.ProductRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,23 +39,24 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public Product setPresence(int id, String presence) {
+        //сначало проверяем есть ли он?
+        Product product=productRepository.findById(id).orElseThrow();
+        System.out.println(product.getTitle());
+        product.setIspresence(presence);
+        return productRepository.save(product);
+    }
 
-    //find from category
-//    public List<Product> searchCategory(int id) {
-//        return productRepository.findDistinctByCategory(id);
-//    }
-
-
-    //search (товаров по заданным параметрам
-    //        название, бренд, цена, категория товара, размер, цвет)
-
-    //update (заменить ... размер)
-    //List<User> findByAndSort(String lastname, Sort sort);
-//    public Product sort(Product productLast, Product productNew) {
-//        Optional<Product> result = productRepository.findById(String productLast, Product productNew);
-//        return result.orElseThrow();
-//        return productRepository.save(productNew);
-//    }
-
+    public List<Product> search(String category,String brand, Double price, Double size) {
+        List<Product> products=findAll();
+        List<Product> productsSearch=products.stream()
+                    .filter(f -> f.getCategory().getTitle().equals(category))
+                    .filter(f -> f.getPrice() <= price)
+                    .filter(f -> f.getBrand().equals(brand))
+                    .filter(f -> f.getSize() == size)
+                    .collect(Collectors.toList());
+        if (productsSearch.size() == 0) {throw new NoSuchProductException("Sorry, product is absent!");}
+        return productsSearch;
+    }
 
 }

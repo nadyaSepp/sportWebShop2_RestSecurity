@@ -34,12 +34,18 @@ public class CategoryService {
                 }
         );
         if (flagEmail.get() == 1) { throw new IllegalArgumentException("Exists!"); }
-
         return categoryRepository.save(category);
     }
 
-    public void delete(int id) {
-        categoryRepository.findById(id).orElseThrow();
-        categoryRepository.deleteById(id);
+    //    public void delete(int id) {
+    //        categoryRepository.findById(id).orElseThrow();
+    //        categoryRepository.deleteById(id);
+    //    }
+
+    public Category update(int id, String title) {
+        Category category=categoryRepository.findById(id).orElseThrow();
+        System.out.println(category.getTitle());
+        category.setTitle(title);
+        return categoryRepository.save(category);
     }
 }

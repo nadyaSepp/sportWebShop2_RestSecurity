@@ -12,7 +12,7 @@ import ru.seppna.sportwebshop_rest.models.Product;
 import ru.seppna.sportwebshop_rest.services.ProductService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @RestController
 @AllArgsConstructor
@@ -47,6 +47,17 @@ public class ProductController {
         return productService.findById(id);
     }
 
+    //admin,client
+    //поиск товара по category,brand,price,size
+    @PreAuthorize("hasAuthority('product:read')")
+    @GetMapping("/search")
+    public List<Product> get(@RequestParam(name="category",required = true) String category,
+                            @RequestParam(name="brand",required = true) String brand,
+                            @RequestParam(name="price",required = true) Double price,
+                            @RequestParam(name="size",required = true) Double size) {
+        return productService.search(category,brand,price,size);
+    }
+
     //admin
     //добавить товар в магазин
     @PatchMapping("/create")
@@ -56,7 +67,17 @@ public class ProductController {
     }
 
     //admin
-    //удалить товар из магазина (переделать!!! поставить отсутствие в магазине!!!!)
+    //добавить товар в магазин
+    @PatchMapping("/{id}/presenсe")
+    @PreAuthorize("hasAuthority('product:write')")
+    public Product setPresence(@PathVariable("id") int id,
+                              @RequestParam(name="value",required = true) String presence) {
+        System.out.println(presence);
+        return productService.setPresence(id,presence);
+    }
+
+    //admin
+    //удалить товар из магазина (пока поставить отсутствие в магазине!)
     @PreAuthorize("hasAuthority('product:write')")
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {

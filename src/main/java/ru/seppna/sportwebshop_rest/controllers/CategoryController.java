@@ -74,10 +74,18 @@ public class CategoryController {
         return categoryService.create(category);
     }
 
-    //удалить категорию
-    @DeleteMapping("{id}")
+    //создать категорию
+    @PatchMapping("/{id}/update")
     @PreAuthorize("hasAuthority('product:write')")
-    public void delete(@PathVariable int id) {
-        categoryService.delete(id);
+    public Category update(@PathVariable int id,
+                           @RequestParam(name="title",required = true) String title) {
+        return categoryService.update(id,title);
     }
+
+    //удалить категорию
+//    @DeleteMapping("{id}")
+//    @PreAuthorize("hasAuthority('product:write')")
+//    public void delete(@PathVariable int id) {
+//        categoryService.delete(id);
+//    }
 }
