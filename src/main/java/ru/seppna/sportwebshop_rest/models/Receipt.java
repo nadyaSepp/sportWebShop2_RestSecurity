@@ -1,6 +1,6 @@
 package ru.seppna.sportwebshop_rest.models;
 
-//Количество позиций в покупке(чеке)
+//Таблица связи - количество позиций в покупке Buy (чеке)
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

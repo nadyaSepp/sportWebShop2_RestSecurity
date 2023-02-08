@@ -31,11 +31,6 @@ public class ProductController {
         return  new ErrorMessage(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(NoSuchElementException.class)
-//    public ResponseEntity<String> handle(){
-//        return  new ResponseEntity<>("No product present!", HttpStatus.NOT_FOUND);
-//    }
-
     //admin,client
     //просмотр всех товаров
     @PreAuthorize("hasAuthority('product:read')")

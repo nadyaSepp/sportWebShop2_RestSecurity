@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -27,12 +27,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.NOT_FOUND) //чтоб статус ответа тоже остался ошибкой -"404 NOT FOUND"
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handle(){
-        return  new ResponseEntity<>("No user present!", HttpStatus.NOT_FOUND);
+        return  new ResponseEntity<>("No such user!", HttpStatus.NOT_FOUND);
     }
-
-    //или обработка иск.ситуаций (тип 3 - свой обработчик NoSuchProductException + его сообщ. и сообщения "No such product")
-    // с указанием в ответе- "400 BAD_REQUEST"
-    //@ExceptionHandler(NoSuchProductException.class)
 
     //класс exception EntityExistsException.class
     @ExceptionHandler(EntityExistsException.class)
@@ -54,12 +50,12 @@ public class UserController {
         return userService.findAll();
     }
 
-    //admin
+    //admin,superadmin, id-Usera
     //show User(id)
-    @GetMapping("{userId}")
-    @PreAuthorize("hasAuthority('user:write')")
-    public User get(@PathVariable int userId) {
-        return userService.findById(userId);
+    @GetMapping("{id}")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
+    public User get(@PathVariable int id) {
+        return userService.findById(id);
     }
 
     //admin,superadmin, client
@@ -67,7 +63,8 @@ public class UserController {
     @GetMapping("/{id}/buys")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public List<Buy> allBuys(@PathVariable int id){
-        return userService.findById(id).getBuys();
+        return userService.allBuys(id);
+        ///return userService.findById(id).getBuys();
     }
 
     //all
@@ -121,7 +118,7 @@ public class UserController {
 
     //admin
     //удалить clienta
-    @DeleteMapping("{userId}")
+    @DeleteMapping("{userId}/delete")
     @PreAuthorize("hasAuthority('user:write')")
     public int delete(@PathVariable int userId) {
         int id=userService.delete(userId);

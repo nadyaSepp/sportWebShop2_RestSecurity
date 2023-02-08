@@ -1,6 +1,5 @@
 package ru.seppna.sportwebshop_rest.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,7 @@ public class Buy {
     @Column(name="registration")
     private Date registration;
 
-    //помечаем вычисляемое поле, которого нет в таблице
+    //@Transient - помечаем вычисляемое поле, которого нет в таблице
     @Transient
     private double pay; //общая сумма покупки
 
@@ -46,4 +45,16 @@ public class Buy {
         this.user = user;
         this.registration = date;
     }
+
+    //расчет суммы чека(покупки buy) за все товары
+    public double sum(List<Receipt> items) {
+        double sum = 0.0;
+        for (Receipt item : items) {
+            System.out.println(item.getProduct().getPrice() + ":" + item.getCount());
+            sum += item.getProduct().getPrice() * item.getCount();
+        }
+        System.out.println("sum:" + sum);
+        return sum;
+    }
+
 }

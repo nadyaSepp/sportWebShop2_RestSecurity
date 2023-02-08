@@ -1,6 +1,6 @@
 package ru.seppna.sportwebshop_rest.models;
 
-//База клиентов (покупатели и админы)
+//Сущность User - пользователь
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

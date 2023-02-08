@@ -41,21 +41,21 @@ public class UserService {
    }
 
    //проверка email(совпадение с регулярным выражением)
-   public boolean matchesEmail(User user){
+   public boolean controlEmail(User user){
         boolean matchesEmail=user.getEmail().matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
         if(matchesEmail==false){System.out.println(String.format("ERROR: ",user.getEmail()));}
         return matchesEmail;
     }
 
     public User create(User user) {
-        boolean result=matchesEmail(user);
+        boolean result=controlEmail(user);
         //проверка корректности email
         if (! result) { throw new EntityExistsException("Bad email"); }
 
         //проверка повтора email
         AtomicInteger flagEmail=new AtomicInteger(0);
         List<User> users=userRepository.findAll();
-        //берем объект через бегунок - u
+        //перебираем объект через бегунок - u
         users.forEach(u->{ if ( u.getEmail().equals(user.getEmail()) )
                                 { flagEmail.set(1); }
                          }
@@ -92,20 +92,24 @@ public class UserService {
         return id;
     }
 
+    //вставляем авторизацию (роль) от суперадмина
     public User setRoleUser(int id, Role role){
         //сначало проверяем есть ли он?
         User user=findById(id);
-        System.out.println(role);
+        //System.out.println(role);
         user.setRole(role);
         return userRepository.save(user);
     }
 
+    //вставляем статус от суперадмина
     public User setStatusUser(int id, Status status) {
         //сначало проверяем есть ли он?
         User user=findById(id);
         user.setStatus(status);
         return userRepository.save(user);
     }
+
+    //собираем покупку клиента
     @Transactional
     public Buy commitBuy(int id, List<Receipt> items) {
         User user = findById(id);
@@ -114,24 +118,27 @@ public class UserService {
 
         //см.какие товары купил и сколько
         //items.forEach(receipt -> System.out.println("111 " + receipt.getProduct().getId() + ":" + receipt.getCount() + ":" + receipt.getBuy()));
-        //расчет суммы всей покупки
-        double sum = 0.;
-        for (Receipt item : items) {
-            Optional<Product> product=productRepository.findById(item.getProduct().getId());
-            //System.out.println("222 " + product.get().getPrice() + ":" + item.getCount());
-            sum+=product.get().getPrice() * item.getCount();
-        }
-        buy.setPay(sum);
+
+         //расчет суммы всей покупки
+        buy.setPay(buy.sum(items));
         System.out.printf("Success sum: %f\n",buy.getPay());
 
         items.forEach(item -> item.setBuy(buy));
 
-        buy.setReceipts(items);//убрала сверху
+        buy.setReceipts(items);//убрала сюда сверху
         buyRepository.save(buy);
         System.out.println("Success buy: ");
 
         receiptRepository.saveAll(items);
         System.out.println("Success receipts: ");
         return buy;
+    }
+
+    //показать все покупки клиента с расчитанной суммой покупки!
+    public List<Buy> allBuys(int id) {
+        User user = findById(id);
+        List<Buy> buys=user.getBuys();
+        buys.forEach(b-> b.setPay(b.sum(b.getReceipts())));
+        return buys;
     }
 }

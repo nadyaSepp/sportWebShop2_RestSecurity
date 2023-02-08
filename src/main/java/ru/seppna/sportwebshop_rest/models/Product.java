@@ -1,6 +1,6 @@
 package ru.seppna.sportwebshop_rest.models;
 
-//Спортивные товары Веб-магазина
+//Сущность Product - товары магазина
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

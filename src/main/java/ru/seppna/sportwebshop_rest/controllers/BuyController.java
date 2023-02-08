@@ -31,7 +31,7 @@ public class BuyController {
     @ExceptionHandler()
     public ResponseEntity<String> handle(NoSuchElementException ex){
         log.error(ex.getMessage());
-        return  new ResponseEntity<>("No buy present!", HttpStatus.NOT_FOUND);
+        return  new ResponseEntity<>("No such buy!", HttpStatus.NOT_FOUND);
     }
     //admin + super
     //show покупки всех users

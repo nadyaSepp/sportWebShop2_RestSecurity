@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-//Категории товаров
+//Сущность Category - категория товара
 
 @Data
 @NoArgsConstructor

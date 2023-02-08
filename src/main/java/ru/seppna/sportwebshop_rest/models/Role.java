@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+//роль пользователя
 public enum Role {
     CLIENT(Set.of(Permission.USER_READ,Permission.PRODUCT_READ)),
 
