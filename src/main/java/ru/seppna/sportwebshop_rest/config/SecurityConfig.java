@@ -43,7 +43,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
                 //--здесь по url "/"- дать доступ всем
                 .antMatchers("/").permitAll()
                 //добавили паттерн для "/user/create"
-                .antMatchers("/user/create").permitAll()
+                .antMatchers("/users/create").permitAll()
                 //любой другой запрос - только авторизованным
                 .anyRequest().authenticated()
                 .and()

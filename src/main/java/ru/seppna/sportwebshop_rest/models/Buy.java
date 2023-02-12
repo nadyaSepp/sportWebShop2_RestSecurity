@@ -31,7 +31,7 @@ public class Buy {
     private User user;
 
     //массив позиций покупки в чеке
-    @OneToMany(mappedBy = "buy",cascade = CascadeType.ALL)//
+    @OneToMany(mappedBy = "buy",cascade = CascadeType.ALL)
     //не ставим @JsonIgnore !!!!!
     private List<Receipt> receipts;
 

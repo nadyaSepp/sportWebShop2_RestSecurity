@@ -63,6 +63,7 @@ public class UserService {
                      );
         if (flagEmail.get() == 1) { throw new IllegalArgumentException("Exists email"); }
 
+        user.setRegistration(new Date());
         //вставляем первичную авторизацию
         user.setRole(Role.CLIENT);
         user.setStatus(Status.ACTIVE);
@@ -84,7 +85,12 @@ public class UserService {
         user.setPhone(newUser.getPhone());
         return userRepository.save(user);
     }
-
+    public User updatePasswd(int id, User newUser) {
+        User user=findById(id);
+        //вставляем хеширование пароля
+        user.setPasswd(hashPasswd(newUser));
+        return userRepository.save(user);
+    }
     public int delete(int id) {
         //сначало проверяем есть ли он?
         userRepository.findById(id).orElseThrow();
@@ -149,4 +155,6 @@ public class UserService {
         buys.forEach(b-> b.setPay(b.sum(b.getReceipts())));
         return buys;
     }
+
+
 }

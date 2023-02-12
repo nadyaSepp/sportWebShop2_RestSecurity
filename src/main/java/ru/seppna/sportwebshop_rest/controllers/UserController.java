@@ -84,7 +84,7 @@ public class UserController {
     }
 
     //admin,superadmin, client
-    //изменение данных личного кабинета (ФИО,город, страна, контактный телефон)
+    //изменение данных личного кабинета (ФИО, логин, город, страна, контактный телефон)
     @PatchMapping("/{id}/update")
     @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
     public User update( @PathVariable(name = "id") int id,
@@ -92,6 +92,14 @@ public class UserController {
         return userService.update(id,newUser);
     }
 
+    //admin,superadmin, client
+    //изменение данных личного кабинета (пароль)
+    @PatchMapping("/{id}/update_passwd")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #id) or hasAuthority('user:write')")
+    public User updatePasswd( @PathVariable(name = "id") int id,
+                        @RequestBody User newUser) {
+        return userService.updatePasswd(id,newUser);
+    }
     //admin, superadmin,client
     //создать покупку
     @PostMapping("/{id}/create_buy")
