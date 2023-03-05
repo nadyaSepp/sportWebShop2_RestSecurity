@@ -12,8 +12,4 @@ import java.util.List;
 
 @Repository
 public interface BuyRepository extends JpaRepository<Buy,Integer> {
-
-//    @Query(nativeQuery = true, value = "select * FROM products")
-//    List<Product> allProducts();
-
 }

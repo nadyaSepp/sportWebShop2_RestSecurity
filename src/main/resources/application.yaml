@@ -8,4 +8,6 @@ spring:
     properties:
       hibernate:
         dialect: 'org.hibernate.dialect.PostgreSQLDialect'
-#  generate-dll: true
+logging:
+  file:
+    name: log.txt

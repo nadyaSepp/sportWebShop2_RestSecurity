@@ -40,7 +40,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
                 .csrf().disable()
                 //пометка, что для запросов будут след.правила
                 .authorizeRequests()
-                //--здесь по url "/"- дать доступ всем
+                //здесь по url "/"- дать доступ всем
                 .antMatchers("/").permitAll()
                 //добавили паттерн для "/user/create"
                 .antMatchers("/users/create").permitAll()

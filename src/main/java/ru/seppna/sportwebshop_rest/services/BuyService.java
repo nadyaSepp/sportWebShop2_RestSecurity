@@ -55,10 +55,7 @@ public class BuyService {
         for (Buy item : buys) {
             if (item.getRegistration().after(value)) {buysAfter.add(item);}
         }
-        //for (Buy item : buysAfter) {
-        //double pay = sum(item.getReceipts());
-        //item.setPay(pay);
-        //}
+
         buysAfter.forEach(b-> b.setPay(b.sum(b.getReceipts())));
         return buysAfter;
     }

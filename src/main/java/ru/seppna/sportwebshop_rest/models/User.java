@@ -3,6 +3,7 @@ package ru.seppna.sportwebshop_rest.models;
 //Сущность User - пользователь
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -34,9 +35,9 @@ public class User {
     private String country;
     @Column(name="phone")
     private String phone;
+
     @Column(name="email")
     private String email;
-
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role;

@@ -41,7 +41,7 @@ public class UserService {
        return  encodedPassword;
    }
 
-   //проверка email(совпадение с регулярным выражением)
+   //проверка email(регулярным выражением)
    public boolean controlEmail(User user){
         boolean matchesEmail=user.getEmail().matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
         if(matchesEmail==false){System.out.println(String.format("ERROR: ",user.getEmail()));}
@@ -127,7 +127,7 @@ public class UserService {
        //проверяем, можно ли купить этот товар
         items.forEach(receipt -> { Optional<Product> p = productRepository.findById(receipt.getProduct().getId());
                                    if (p.get().getIspresence().equals("нет"))
-                                     {throw new NoSuchProductException("Bad receipts");}
+                                     {throw new NoSuchProductException("Product not available");}
                                    else receipt.getProduct().setIspresence("есть");
                                  });
         //собираем чек(покупку)
